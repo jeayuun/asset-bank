@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+/*
+ * Placeholder brand palette (blocker: Class Builder logo files, colour
+ * values, and typeface are not yet supplied — see docs/PROGRESS.md
+ * "Open blockers" #1 and docs/BLUEPRINT.md §17.6). Swap these tokens for
+ * the approved brand values when they arrive; nothing else should need to
+ * change since components consume the tokens, not raw colours.
+ */
+:root {
+  --background: #ffffff;
+  --foreground: #14181f;
+
+  --card: #ffffff;
+  --card-foreground: #14181f;
+
+  --primary: #2f5fdb;
+  --primary-foreground: #ffffff;
+
+  --secondary: #eef1f7;
+  --secondary-foreground: #14181f;
+
+  --muted: #f4f5f8;
+  --muted-foreground: #5c6577;
+
+  --accent: #eef1f7;
+  --accent-foreground: #14181f;
+
+  --destructive: #d1373f;
+  --destructive-foreground: #ffffff;
+
+  --border: #e2e5ec;
+  --input: #e2e5ec;
+  --ring: #2f5fdb;
+
+  --radius: 0.625rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-md: calc(var(--radius) - 0.125rem);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 0.25rem);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0b0d12;
+    --foreground: #eceef2;
+
+    --card: #12151c;
+    --card-foreground: #eceef2;
+
+    --primary: #6d8fee;
+    --primary-foreground: #0b0d12;
+
+    --secondary: #1b1f29;
+    --secondary-foreground: #eceef2;
+
+    --muted: #171b24;
+    --muted-foreground: #9aa2b4;
+
+    --accent: #1b1f29;
+    --accent-foreground: #eceef2;
+
+    --destructive: #e35d63;
+    --destructive-foreground: #0b0d12;
+
+    --border: #232834;
+    --input: #232834;
+    --ring: #6d8fee;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
