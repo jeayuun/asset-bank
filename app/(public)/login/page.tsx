@@ -20,13 +20,12 @@ export default function LoginPage() {
           <h1 className="text-xl font-semibold tracking-tight">
             Sign in to Asset Bank
           </h1>
-          <p className="text-sm text-muted-foreground">
-            Use the personal Google account you were individually invited
-            with.
+          <p className="text-muted-foreground text-sm">
+            Use the personal Google account you were individually invited with.
           </p>
         </div>
 
-        <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+        <div className="border-border bg-card rounded-xl border p-6 shadow-sm">
           <Button
             type="button"
             disabled
@@ -36,11 +35,14 @@ export default function LoginPage() {
             <GoogleGlyph />
             Continue with Google
           </Button>
-          <p id="login-disabled-note" className="mt-3 text-center text-xs text-muted-foreground">
+          <p
+            id="login-disabled-note"
+            className="text-muted-foreground mt-3 text-center text-xs"
+          >
             Sign-in is not wired up yet in this build.
           </p>
 
-          <div className="mt-6 space-y-3 border-t border-border pt-6 text-xs text-muted-foreground">
+          <div className="border-border text-muted-foreground mt-6 space-y-3 border-t pt-6 text-xs">
             <p>
               Asset Bank is invitation-only. If you weren&apos;t individually
               invited, signing in won&apos;t grant access.
