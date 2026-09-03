@@ -1,0 +1,50 @@
+project_id = "asset-bank"
+
+[api]
+enabled = true
+port = 54321
+# app must be exposed for supabase.schema('app').rpc(...) to reach the
+# admin RPCs (set_user_role, suspend_user, ...) — PostgREST only routes to
+# schemas listed here. Data tables stay in public; app holds only
+# SECURITY DEFINER functions and helpers, never queried as tables.
+schemas = ["public", "app", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+file_size_limit = "5MiB"
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["http://127.0.0.1:3000/callback"]
+jwt_expiry = 3600
+enable_signup = false
+
+# Google is the only external provider (openid, email, profile only — no
+# Drive scope; docs/DECISIONS.md D-13, CLAUDE.md §4). Left disabled: a real
+# Google Cloud OAuth client is an external credential the owner creates,
+# not something built by this session. Once it exists, set
+# SUPABASE_AUTH_GOOGLE_CLIENT_ID / SUPABASE_AUTH_GOOGLE_CLIENT_SECRET in
+# the environment this CLI runs in and flip enabled to true — everything
+# else (the invitation gate, RLS, /callback) is already wired for it.
+[auth.external.google]
+enabled = false
+client_id = "env(SUPABASE_AUTH_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_GOOGLE_CLIENT_SECRET)"
+
+[edge_runtime]
+enabled = false

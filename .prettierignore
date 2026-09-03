@@ -1,0 +1,11 @@
+.next
+node_modules
+pnpm-lock.yaml
+coverage
+playwright-report
+test-results
+types/database.types.ts
+
+# Documentation is governed by CLAUDE.md's own contract, not app tooling.
+CLAUDE.md
+docs/

@@ -320,3 +320,39 @@ the exact moment a person is asked to grant access to their personal Google acco
 
 **Consequences.** There is still no public or marketing homepage. `/login` remains the only
 unauthenticated route besides `/callback`, `/no-access`, and `/suspended`.
+
+---
+
+## D-16 — Suspension does not call an admin API to revoke sessions
+**Date:** 2026-08-31 · **Status:** Accepted (corrects Blueprint V2 §4.4 step 4 and §13)
+
+**Decision.** `app.suspend_user()` flips `profiles.status` and nothing else. There is no
+service-role Admin API call to force-revoke the suspended user's existing sessions.
+
+**Why.** Blueprint V2 §4.4 step 4 said suspension "also calls the admin API to revoke the user's
+refresh tokens." Verified against current Supabase documentation while implementing Phase 1: the
+GoTrue Admin API's `signOut()` revokes sessions by JWT (the session's own token), not by user ID —
+there is no supported "revoke all sessions for this user ID" call. The only way to guarantee a
+user's refresh tokens stop working via the public API is `admin.deleteUser()`, which deletes the
+`auth.users` row entirely — permanent and irreversible, and therefore forbidden by D-05 (no hard
+delete) for a state that must be reversible via reactivation. Directly deleting rows from
+`auth.sessions` / `auth.refresh_tokens` would work locally but is explicitly discouraged by
+Supabase's own documentation as an unsupported internal-schema manipulation, and there's no
+verification yet (no Docker in this environment during Phase 1) that it behaves the same on a
+hosted project.
+
+**Why this is still secure.** D-01's actual guarantee doesn't depend on token revocation at all:
+"every RLS policy denies the user, because `app.is_active()` is now false. Data access stops even
+if the user holds a valid unexpired token." Session revocation was described as defense-in-depth
+("so the session cannot be silently renewed") layered on top of that guarantee, not the guarantee
+itself. With it dropped, a suspended user's already-issued access token still can't read or write
+anything — every policy re-checks the live profile — and their refresh token can mint a new access
+token that is equally useless. The one residual gap: the app's own UI won't proactively show
+`/suspended` until the user's next server round-trip (middleware reads the live profile on the
+next protected request, per §4.4 step 3), so a suspended user's current tab may keep rendering
+already-fetched client state for a short while even though every actual data request is denied.
+
+**Consequences.** `lib/supabase/service.ts` (the service-role client) has no real caller in Phase
+1. Its first genuine use returns in Phase 9 (batch import commit), as Blueprint §2.3 already
+anticipated. If a real need for forced session revocation emerges later, revisit against
+Supabase's Admin API at that time rather than reintroducing this dropped call unverified.

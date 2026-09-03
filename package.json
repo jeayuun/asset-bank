@@ -14,28 +14,37 @@
     "test:watch": "vitest",
     "test:rls": "vitest run tests/rls",
     "test:e2e": "playwright test",
-    "gen:types": "supabase gen types typescript --local > types/database.types.ts"
+    "gen:types": "supabase gen types typescript --local > types/database.types.ts",
+    "check:owner": "tsx --env-file-if-exists=.env.local scripts/check-owner.ts"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.58.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "next": "16.3.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "resend": "^6.2.0",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.4.0",
+    "xlsx": "^0.18.5",
     "zod": "^4.1.13"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.15.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.3",
+    "pg": "^8.16.3",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4",
+    "tsx": "^4.20.6",
     "typescript": "^5",
     "vitest": "^3.2.4"
   },
